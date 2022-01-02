@@ -1,0 +1,12 @@
+{
+  "type": "postgres",
+  "database": "exbgm",
+  "username": "postgres",
+  "password": "asdf123",
+  "logging": true,
+  "synchronize": true,
+  "cli": {
+    "entitiesDir": "src/entities",
+    "migrationsDir": "src/migrations"
+  }
+}
