@@ -92,7 +92,12 @@ export class ArtResolver {
     @Arg("tags", () => [Number]) tags: number[]
   ): Promise<Boolean> {
     // const art = await Art.findOne({ id });
-    const newtags = tags.map((tag) => ({ id: tag }));
+    const tagIdGroup = tags.reduce(
+      (prev, curr, index) =>
+        prev + `(${id}, ${curr})${index === tags.length - 1 ? ";" : ","}`,
+      ""
+    );
+
     await getConnection().transaction(async (tm) => {
       await tm.query(
         `
@@ -105,9 +110,9 @@ export class ArtResolver {
       await tm.query(
         `
       insert into art_tags_tag ("artId", "tagId")
-      values ($1,$2)
-      `,
-        [id, tags[0]]
+      values 
+      ${tagIdGroup}
+      `
       );
     });
 
